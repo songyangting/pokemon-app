@@ -1,17 +1,27 @@
 import './App.css';
 import { useRef, useState, useEffect } from 'react';
 import PokemonItem from './PokemonItem';
-import Pagination from './Pagination';
 
- const itemsPerPage = 20;
+const itemsPerPage = 20;
+const maxPokemon = 150;
+
+function Pagination({ page, setPage }) {
+  const prevEnabled = page > 0
+  const nextEnabled = page < Math.floor(maxPokemon/itemsPerPage)
+  return (
+      <div>
+          <button onClick={()=>setPage(page-1)} disabled={!prevEnabled}>Previous page</button>
+          <button onClick={()=>setPage(page+1)} disabled={!nextEnabled}>Next page</button>
+      </div>
+  );
+}
+
 
  function App() {
   const searchField = useRef();
   const [page, setPage] = useState(0);
   const[pokemon, setPokemon] = useState([]);
   
-
-  const maxPokemon = 150;
   const ids = new Array(maxPokemon);
   for (let i=1; i<=maxPokemon; i++) {
     ids[i-1] = i;
